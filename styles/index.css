@@ -1,0 +1,61 @@
+:root {
+  --font-family: "Roboto", sans-serif;
+  --line-height: 1.2rem;
+  --border-thickness: 2px;
+
+  --font-weight-normal: 500;
+  --font-weight-medium: 600;
+  --font-weight-bold: 800;
+
+
+  /* Default (light) color scheme */
+  --text-color: #4c4f69;
+  --text-color-alt: #9ca0b0;
+  --background-color: #eff1f5;
+  --background-color-alt: #bcc0cc;
+
+  font-family: var(--font-family);
+  font-optical-sizing: auto;
+  font-weight: var(--font-weight-normal);
+  font-style: normal;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-size: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #cdd6f4;
+    --text-color-alt: #7f849c;
+    --background-color: #1e1e2e;
+    --background-color-alt: #45475a;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  display: flex;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  align-items: center;
+  background: var(--background-color);
+  color: var(--text-color);
+}
+
+body {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: var(--line-height) 2ch;
+  max-width: calc(min(80ch, round(down, 100%, 1ch)));
+  line-height: var(--line-height);
+  overflow-x: hidden;
+}
+
+hr {
+  border: 1px solid var(--text-color-alt);
+}
