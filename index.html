@@ -12,16 +12,26 @@
     import { codeToHtml } from "https://esm.sh/shiki@1.0.0";
 
 async function highlightCode() {
-  const codeBlocks = document.querySelectorAll(".code-block");
-  for (const block of codeBlocks) {
-    const code = block.textContent;
-    const lang = block.getAttribute("data-lang");
+  const preBlocks = document.querySelectorAll("pre");
+  for (const block of preBlocks) {
+    var code = block.textContent;
+    const lang = block.className.replace('sourceCode ', '');
     
-    // Split into lines and remove 4 spaces from each line after first
     const lines = code.split('\n');
-    const dedented = lines[0] + '\n' + lines.slice(1).map(line => line.slice(4)).join('\n');
+    const nonEmptyLines = lines.slice(1).filter(line => line.trim());
+    var indentLevel = nonEmptyLines.length ? 
+      Math.min(...nonEmptyLines.map(line => line.match(/^\s*/)[0].length)) : 0;
+
+    console.log(indentLevel);
+    if (indentLevel === 6) {
+      indentLevel = 2;
+    }
+
+    // code = lines[0] + '\n' + lines.slice(1)
+    //   .map(line => line.slice(indentLevel))
+    //   .join('\n');
     
-    block.innerHTML = await codeToHtml(dedented, {
+    block.innerHTML = await codeToHtml(code, {
       lang: lang,
       theme: "catppuccin-mocha",
     });
@@ -42,12 +52,12 @@ async function highlightCode() {
 
     <p>Welcome to my website. I code and do stuff with AI. nixos btw,
     nvim btw.</p>
-    <div class="code-block" data-lang="python">def fib(n):
-        if n < 2:
-            return n
-        else:
-            return fib(n-1) + fib(n-2)</div>
-
+    <div class="sourceCode" id="cb1"><pre
+    class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fib(n):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="op">&lt;</span> <span class="dv">2</span>:</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> n</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> fib(n<span class="op">-</span><span class="dv">1</span>) <span class="op">+</span> fib(n<span class="op">-</span><span class="dv">2</span>)</span></code></pre></div>
     <h3 id="projects">Projects</h3>
     <ul>
     <li><a href="projects/website.html">website</a></li>

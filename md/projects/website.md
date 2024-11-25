@@ -9,6 +9,7 @@ This is my fourth iteration of my website.
   - jekyll automatically handles all the routing for me
 
 build script:
+
 ```sh
 #!/usr/bin/env bash
 

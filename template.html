@@ -12,22 +12,18 @@
   <script type="module">
     import { codeToHtml } from "https://esm.sh/shiki@1.0.0";
 
-async function highlightCode() {
-  const codeBlocks = document.querySelectorAll(".code-block");
-  for (const block of codeBlocks) {
-    const code = block.textContent;
-    const lang = block.getAttribute("data-lang");
-    
-    // Split into lines and remove 4 spaces from each line after first
-    const lines = code.split('\n');
-    const dedented = lines[0] + '\n' + lines.slice(1).map(line => line.slice(4)).join('\n');
-    
-    block.innerHTML = await codeToHtml(dedented, {
-      lang: lang,
-      theme: "catppuccin-mocha",
-    });
-  }
-}
+    async function highlightCode() {
+      const preBlocks = document.querySelectorAll("pre");
+      for (const block of preBlocks) {
+        var code = block.textContent;
+        const lang = block.className.replace('sourceCode ', '');
+        
+        block.innerHTML = await codeToHtml(code, {
+          lang: lang,
+          theme: "catppuccin-mocha",
+        });
+      }
+    }
 
     highlightCode();
   </script>

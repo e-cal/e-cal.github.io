@@ -1,15 +1,6 @@
 import asyncio
 import re
 from twikit import Client
-import textwrap
-
-def wrap_code_blocks(content):
-    pattern = r'```(\w+)\n(.*?)```'
-    def replacement(match):
-        lang, code = match.groups()
-        code = textwrap.dedent(code).strip()
-        return f'<div class="code-block" data-lang="{lang}">{code}</div>'
-    return re.sub(pattern, replacement, content, flags=re.DOTALL)
 
 def tweet_to_html(url, tweet):
     html = f"""<blockquote>
@@ -33,8 +24,6 @@ async def main(filepath):
 
     with open(filepath) as f:
         content = f.read()
-
-    content = wrap_code_blocks(content)
 
     pattern = r'https?://(?:twitter\.com|x\.com)/\S+/(\d+)'
     for match in re.finditer(pattern, content):
