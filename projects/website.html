@@ -11,32 +11,18 @@
   <script type="module">
     import { codeToHtml } from "https://esm.sh/shiki@1.0.0";
 
-async function highlightCode() {
-  const preBlocks = document.querySelectorAll("pre");
-  for (const block of preBlocks) {
-    var code = block.textContent;
-    const lang = block.className.replace('sourceCode ', '');
-    
-    const lines = code.split('\n');
-    const nonEmptyLines = lines.slice(1).filter(line => line.trim());
-    var indentLevel = nonEmptyLines.length ? 
-      Math.min(...nonEmptyLines.map(line => line.match(/^\s*/)[0].length)) : 0;
-
-    console.log(indentLevel);
-    if (indentLevel === 6) {
-      indentLevel = 2;
+    async function highlightCode() {
+      const preBlocks = document.querySelectorAll("pre");
+      for (const block of preBlocks) {
+        var code = block.textContent;
+        const lang = block.className.replace('sourceCode ', '');
+        
+        block.innerHTML = await codeToHtml(code, {
+          lang: lang,
+          theme: "catppuccin-mocha",
+        });
+      }
     }
-
-    // code = lines[0] + '\n' + lines.slice(1)
-    //   .map(line => line.slice(indentLevel))
-    //   .join('\n');
-    
-    block.innerHTML = await codeToHtml(code, {
-      lang: lang,
-      theme: "catppuccin-mocha",
-    });
-  }
-}
 
     highlightCode();
   </script>
@@ -75,25 +61,23 @@ async function highlightCode() {
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="ex">python</span> process.py <span class="st">&quot;</span><span class="va">$md_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="ex">pandoc</span> <span class="at">-f</span> gfm <span class="at">--mathjax</span> <span class="va">$css</span> <span class="at">--template</span><span class="op">=</span>template.html <span class="at">--standalone</span> <span class="at">-t</span> html <span class="at">-o</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">&quot;</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;Processed: </span><span class="va">$md_file</span><span class="st"> -&gt; </span><span class="va">$out</span><span class="st">&quot;</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
-    <h2 id="new-site">New Site</h2>
-    <p>The only fancy bit is the python script that parses out x posts
-    and renders them as html (instead of using embeds or just
-    linking).</p>
     <h2 id="previous-versions">Previous versions</h2>
-    <h3 id="customized-gatsby-tech-portfolio-template">Customized Gatsby
-    tech portfolio template</h3>
+    <h3
+    id="3-fully-custom-htmx--python--jinja2--html--css-server-side-rendered-site">3.
+    Fully custom htmx / python / jinja2 / html &amp; css server side
+    rendered site</h3>
     <span style="display: flex; justify-content: space-between; width: 100%">
-    <img src="/assets/site1-home.png" style="width: 49%">
-    <img src="/assets/site1-projects.png" style="width: 49%">
+    <img src="/assets/site3-home.png" style="width: 49%">
+    <img src="/assets/site3-projects.png" style="width: 49%">
     </span>
 
-    <p>Thought this one was uninspired.</p>
-    <p>Using a template is fine, I don't judge others for it, but
-    personally I always felt a little ashamed that I didn't
-    <em>really</em> build my website myself.</p>
+    <p>I'm a big fan of htmx, but shoehorning it into a static personal
+    website just doesn't make any sense. Also a looping mp4 background
+    made the initial load time really slow, and the design was unique
+    but I got tired of it after awhile.</p>
     <h3
-    id="single-page-pure-htmlcssjs-with-client-rendered-interactive-background">Single
-    page pure html/css/js with client-rendered interactive
+    id="2-single-page-pure-htmlcssjs-with-client-rendered-interactive-background">2.
+    Single page pure html/css/js with client-rendered interactive
     background</h3>
     <span style="display: flex; justify-content: space-between; width: 100%">
     <img src="/assets/site2-home.png" style="width: 49%">
@@ -106,18 +90,16 @@ async function highlightCode() {
     buggy on certain devices. Client side rendering a bunch of particles
     and interactions is just a bit gimmicky and unnecessary for a
     personal website. Still super cool and fun to build though.</p>
-    <h3
-    id="fully-custom-htmx--python--jinja2--html--css-server-side-rendered-site">Fully
-    custom htmx / python / jinja2 / html &amp; css server side rendered
-    site</h3>
+    <h3 id="1-customized-gatsby-tech-portfolio-template">1. Customized
+    Gatsby tech portfolio template</h3>
     <span style="display: flex; justify-content: space-between; width: 100%">
-    <img src="/assets/site3-home.png" style="width: 49%">
-    <img src="/assets/site3-projects.png" style="width: 49%">
+    <img src="/assets/site1-home.png" style="width: 49%">
+    <img src="/assets/site1-projects.png" style="width: 49%">
     </span>
 
-    <p>I'm a big fan of htmx, but shoehorning it into a static personal
-    website just doesn't make any sense. Also a looping mp4 background
-    made the initial load time really slow, and the design was unique
-    but I got tired of it after awhile.</p>
+    <p>My first website, I hosted this one on a raspberry pi in my
+    room!</p>
+    <p>The design was super uninspired. Using a template is fine, but
+    after a while I really wanted to build something myself.</p>
   </body>
 </html>

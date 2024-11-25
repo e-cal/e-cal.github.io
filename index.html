@@ -11,32 +11,18 @@
   <script type="module">
     import { codeToHtml } from "https://esm.sh/shiki@1.0.0";
 
-async function highlightCode() {
-  const preBlocks = document.querySelectorAll("pre");
-  for (const block of preBlocks) {
-    var code = block.textContent;
-    const lang = block.className.replace('sourceCode ', '');
-    
-    const lines = code.split('\n');
-    const nonEmptyLines = lines.slice(1).filter(line => line.trim());
-    var indentLevel = nonEmptyLines.length ? 
-      Math.min(...nonEmptyLines.map(line => line.match(/^\s*/)[0].length)) : 0;
-
-    console.log(indentLevel);
-    if (indentLevel === 6) {
-      indentLevel = 2;
+    async function highlightCode() {
+      const preBlocks = document.querySelectorAll("pre");
+      for (const block of preBlocks) {
+        var code = block.textContent;
+        const lang = block.className.replace('sourceCode ', '');
+        
+        block.innerHTML = await codeToHtml(code, {
+          lang: lang,
+          theme: "catppuccin-mocha",
+        });
+      }
     }
-
-    // code = lines[0] + '\n' + lines.slice(1)
-    //   .map(line => line.slice(indentLevel))
-    //   .join('\n');
-    
-    block.innerHTML = await codeToHtml(code, {
-      lang: lang,
-      theme: "catppuccin-mocha",
-    });
-  }
-}
 
     highlightCode();
   </script>

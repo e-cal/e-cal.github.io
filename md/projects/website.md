@@ -24,27 +24,21 @@ find md/ -name "*.md" | while read -r md_file; do
 done
 ```
 
-## New Site
-
-
-The only fancy bit is the python script that parses out x posts and renders them
-as html (instead of using embeds or just linking).
-
 ## Previous versions
 
-### Customized Gatsby tech portfolio template
+### 3. Fully custom htmx / python / jinja2 / html & css server side rendered site
 
 <span style="display: flex; justify-content: space-between; width: 100%">
-<img src="/assets/site1-home.png" style="width: 49%">
-<img src="/assets/site1-projects.png" style="width: 49%">
+<img src="/assets/site3-home.png" style="width: 49%">
+<img src="/assets/site3-projects.png" style="width: 49%">
 </span>
 
+I'm a big fan of htmx, but shoehorning it into a static personal website just
+doesn't make any sense. Also a looping mp4 background made the initial load time
+really slow, and the design was unique but I got tired of it after awhile.
 
-Thought this one was uninspired. 
 
-Using a template is fine, I don't judge others for it, but personally I always felt a little ashamed that I didn't _really_ build my website myself.
-
-### Single page pure html/css/js with client-rendered interactive background
+### 2. Single page pure html/css/js with client-rendered interactive background
 
 <span style="display: flex; justify-content: space-between; width: 100%">
 <img src="/assets/site2-home.png" style="width: 49%">
@@ -57,15 +51,15 @@ background could be slow or buggy on certain devices. Client side rendering a
 bunch of particles and interactions is just a bit gimmicky and unnecessary for a
 personal website. Still super cool and fun to build though.
 
-### Fully custom htmx / python / jinja2 / html & css server side rendered site
+
+### 1. Customized Gatsby tech portfolio template
 
 <span style="display: flex; justify-content: space-between; width: 100%">
-<img src="/assets/site3-home.png" style="width: 49%">
-<img src="/assets/site3-projects.png" style="width: 49%">
+<img src="/assets/site1-home.png" style="width: 49%">
+<img src="/assets/site1-projects.png" style="width: 49%">
 </span>
 
-I'm a big fan of htmx, but shoehorning it into a static personal website just
-doesn't make any sense. Also a looping mp4 background made the initial load time
-really slow, and the design was unique but I got tired of it after awhile.
 
+My first website, I hosted this one on a raspberry pi in my room!
 
+The design was super uninspired. Using a template is fine, but after a while I really wanted to build something myself.
