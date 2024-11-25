@@ -1,6 +1,25 @@
 #!/usr/bin/env bash
 
-[[ -z "$1" ]] && echo "Usage: $0 <input.md>" && exit 1
+find md/ -name "*.md" | while read -r md_file; do
+    out=$(echo "$md_file" | sed -e 's/md\///' -e 's/\.md/\.html/')
 
-CSS_FILES=$(find styles/ -name "*.css" -exec echo --css={} \;)
-python process.py $1 | pandoc -f gfm --mathjax $CSS_FILES --template=template.html --standalone -t html -o out.html
+    # Create the output directory if it doesn't exist
+    output_dir=$(dirname "$out")
+    mkdir -p "$output_dir"
+
+    # Find all CSS files and create the CSS_FILES variable
+    CSS_FILES=$(find styles/ -name "*.css" -exec echo --css=/{} \;)
+
+    python process.py "$md_file" | \
+        pandoc \
+            $CSS_FILES \
+            -f gfm \
+            --metadata title="ecal.dev" \
+            --mathjax \
+            -t html \
+            --template=template.html \
+            --standalone \
+            -o "$out" 
+
+    echo "Processed: $md_file -> $out"
+done

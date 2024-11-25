@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ecal.dev</title>
+    <link rel="stylesheet" href="/styles/tweets.css" />
+    <link rel="stylesheet" href="/styles/index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script> 
+
+  <script type="module">
+    import { codeToHtml } from "https://esm.sh/shiki@1.0.0";
+
+async function highlightCode() {
+  const codeBlocks = document.querySelectorAll(".code-block");
+  for (const block of codeBlocks) {
+    const code = block.textContent;
+    const lang = block.getAttribute("data-lang");
+    
+    // Split into lines and remove 4 spaces from each line after first
+    const lines = code.split('\n');
+    const dedented = lines[0] + '\n' + lines.slice(1).map(line => line.slice(4)).join('\n');
+    
+    block.innerHTML = await codeToHtml(dedented, {
+      lang: lang,
+      theme: "catppuccin-mocha",
+    });
+  }
+}
+
+    highlightCode();
+  </script>
+  </head>
+  <body>
+    <header>
+      <!-- Your header content here -->
+      <nav>
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+      </nav>
+    </header>
+
+    <h1 id="website">Website</h1>
+    <p>This is my fourth iteration of my website.</p>
+    <ul>
+    <li>All content is in markdown, site is vanilla html and css</li>
+    <li>All html apart from the template is completely generated (via
+    pandoc)</li>
+    <li>Python script to render X posts as html</li>
+    <li>Hosted on github pages
+    <ul>
+    <li>jekyll automatically handles all the routing for me</li>
+    </ul></li>
+    </ul>
+    <p>build script:</p>
+    <div class="code-block" data-lang="sh">#!/usr/bin/env bash
+
+    <h1
+    id="find-all-markdown-files-in-md-and-translate-to-html-with-a-mirrored-path">Find
+    all markdown files in md/ and translate to html with a mirrored
+    path</h1>
+    <p>find md/ -name "<em>.md" | while read -r md_file; do out=<span
+    class="math inline">\((echo &quot;\)</span>md_file" | sed -e
+    's/md///' -e 's/.md/.html/') output_dir=<span
+    class="math inline">\((dirname &quot;\)</span>out") mkdir -p "<span
+    class="math inline">\(output_dir&quot;
+    css=\)</span>(find styles/ -name "</em>.css" -exec echo --css=/{} ;)
+    python process.py "$md_file" | pandoc -f gfm --mathjax <span
+    class="math inline">\(css --template=template.html --standalone -t
+    html -o &quot;\)</span>out" 2&gt;/dev/null echo "Processed: $md_file
+    -&gt; $out" done</div></p>
+    <h2 id="new-site">New Site</h2>
+    <p>The only fancy bit is the python script that parses out x posts
+    and renders them as html (instead of using embeds or just
+    linking).</p>
+    <h2 id="previous-versions">Previous versions</h2>
+    <h3 id="customized-gatsby-tech-portfolio-template">Customized Gatsby
+    tech portfolio template</h3>
+    <span style="display: flex; justify-content: space-between; width: 100%">
+    <img src="/assets/site1-home.png" style="width: 49%">
+    <img src="/assets/site1-projects.png" style="width: 49%">
+    </span>
+
+    <p>Thought this one was uninspired.</p>
+    <p>Using a template is fine, I don't judge others for it, but
+    personally I always felt a little ashamed that I didn't
+    <em>really</em> build my website myself.</p>
+    <h3
+    id="single-page-pure-htmlcssjs-with-client-rendered-interactive-background">Single
+    page pure html/css/js with client-rendered interactive
+    background</h3>
+    <span style="display: flex; justify-content: space-between; width: 100%">
+    <img src="/assets/site2-home.png" style="width: 49%">
+    <img src="/assets/site2-projects.png" style="width: 49%">
+    </span>
+
+    <p>Very proud of the look and feel of this one. However, the
+    complexity had lots of little visual bugs that got increasingly
+    annoying to fix, and the interactive background could be slow or
+    buggy on certain devices. Client side rendering a bunch of particles
+    and interactions is just a bit gimmicky and unnecessary for a
+    personal website. Still super cool and fun to build though.</p>
+    <h3
+    id="fully-custom-htmx--python--jinja2--html--css-server-side-rendered-site">Fully
+    custom htmx / python / jinja2 / html &amp; css server side rendered
+    site</h3>
+    <span style="display: flex; justify-content: space-between; width: 100%">
+    <img src="/assets/site3-home.png" style="width: 49%">
+    <img src="/assets/site3-projects.png" style="width: 49%">
+    </span>
+
+    <p>I'm a big fan of htmx, but shoehorning it into a static personal
+    website just doesn't make any sense. Also a looping mp4 background
+    made the initial load time really slow, and the design was unique
+    but I got tired of it after awhile.</p>
+  </body>
+</html>

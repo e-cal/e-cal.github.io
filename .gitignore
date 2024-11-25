@@ -1,3 +1,4 @@
 .env
 .venv
 cookies.json
+_site
