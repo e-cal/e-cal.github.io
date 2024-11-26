@@ -38,17 +38,15 @@
 
     <h1 id="website">Website</h1>
     <p>This is my fourth iteration of my website.</p>
+    <div class="bullets-no-spacing">
+
     <ul>
-    <li>All content is in markdown, site is vanilla html and css</li>
-    <li>All html apart from the template is completely generated (via
-    pandoc)</li>
-    <li>Python script to render X posts as html</li>
-    <li>Hosted on github pages
-    <ul>
-    <li>jekyll automatically handles all the routing for me</li>
-    </ul></li>
-    </ul>
-    <p>build script:</p>
+    <li><p>All content is in markdown, site is vanilla html and
+    css</p></li>
+    <li><p>Hosted on github pages (<a
+    href="https://github.com/e-cal/e-cal.github.io">here</a>)</p></li>
+    <li><details><summary>All html apart from the template is completely generated (via pandoc)</summary>
+
     <div class="sourceCode" id="cb1"><pre
     class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -61,6 +59,54 @@
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="ex">python</span> process.py <span class="st">&quot;</span><span class="va">$md_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="ex">pandoc</span> <span class="at">-f</span> gfm <span class="at">--mathjax</span> <span class="va">$css</span> <span class="at">--template</span><span class="op">=</span>template.html <span class="at">--standalone</span> <span class="at">-t</span> html <span class="at">-o</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">&quot;</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;Processed: </span><span class="va">$md_file</span><span class="st"> -&gt; </span><span class="va">$out</span><span class="st">&quot;</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+    </details>
+    </li>
+    <li><details><summary>Python script to render X posts as html</summary>
+
+    <div class="sourceCode" id="cb2"><pre
+    class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tweet_to_html(url, tweet):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    html <span class="op">=</span> <span class="ss">f&quot;&quot;&quot;&lt;blockquote&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ss">&lt;div class=&quot;tweet&quot;&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ss">&lt;div class=&quot;tweet-header&quot;&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ss">&lt;a href=&quot;</span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">&quot;&gt;&lt;img class=&quot;tweet-profile-pic&quot; src=&quot;</span><span class="sc">{</span>tweet<span class="sc">.</span>user<span class="sc">.</span>profile_image_url<span class="sc">}</span><span class="ss">&quot; /&gt;&lt;span class=&quot;tweet-header-text&quot;&gt;</span><span class="sc">{</span>tweet<span class="sc">.</span>user<span class="sc">.</span>name<span class="sc">}</span><span class="ss">&lt;span class=&quot;tweet-screen-name&quot;&gt;@</span><span class="sc">{</span>tweet<span class="sc">.</span>user<span class="sc">.</span>screen_name<span class="sc">}</span><span class="ss">&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ss">&lt;/div&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ss">&lt;div class=&quot;tweet-body&quot;&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="sc">{</span>tweet<span class="sc">.</span>text<span class="sc">}</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ss">&quot;&quot;&quot;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> tweet.media:</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> m <span class="kw">in</span> tweet.media:</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            html <span class="op">=</span> html.replace(m[<span class="st">&quot;url&quot;</span>], <span class="st">&quot;&quot;</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            html <span class="op">+=</span> <span class="ss">f&#39;</span><span class="ch">\n</span><span class="ss">&lt;img class=&quot;tweet-image&quot; src=&quot;</span><span class="sc">{</span>m[<span class="st">&quot;media_url_https&quot;</span>]<span class="sc">}</span><span class="ss">&quot; /&gt;</span><span class="ch">\n</span><span class="ss">&#39;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="st">&quot;&lt;/div&gt;</span><span class="ch">\n</span><span class="st">&lt;/div&gt;</span><span class="ch">\n</span><span class="st">&lt;/blockquote&gt;&quot;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> html</span></code></pre></div>
+    </details>
+    </li>
+    <li><details> <summary>Inject code syntax highlighting via shiki</summary>
+
+    <div class="sourceCode" id="cb3"><pre
+    class="sourceCode html"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> type=</span><span class="st">&quot;module&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="im">import</span> { codeToHtml } <span class="im">from</span> <span class="st">&quot;https://esm.sh/shiki@1.0.0&quot;</span><span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="kw">function</span> <span class="fu">highlightCode</span>() {</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> preBlocks <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">querySelectorAll</span>(<span class="st">&quot;pre&quot;</span>)<span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">const</span> block <span class="kw">of</span> preBlocks) {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="kw">var</span> code <span class="op">=</span> block<span class="op">.</span><span class="at">textContent</span><span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> lang <span class="op">=</span> block<span class="op">.</span><span class="at">className</span><span class="op">.</span><span class="fu">replace</span>(<span class="st">&quot;sourceCode &quot;</span><span class="op">,</span> <span class="st">&quot;&quot;</span>)<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>      block<span class="op">.</span><span class="at">innerHTML</span> <span class="op">=</span> <span class="cf">await</span> <span class="fu">codeToHtml</span>(code<span class="op">,</span> {</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">lang</span><span class="op">:</span> lang<span class="op">,</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">theme</span><span class="op">:</span> <span class="st">&quot;catppuccin-mocha&quot;</span><span class="op">,</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>      })<span class="op">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">highlightCode</span>()<span class="op">;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span></code></pre></div>
+    </details>
+    </li>
+    </ul>
+    </div>
+
     <h2 id="previous-versions">Previous versions</h2>
     <h3
     id="3-fully-custom-htmx--python--jinja2--html--css-server-side-rendered-site">3.

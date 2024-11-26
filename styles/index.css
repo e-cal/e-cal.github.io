@@ -63,3 +63,8 @@ hr {
 img {
   width: 100%;
 }
+
+.bullets-no-spacing p {
+  margin: 0;
+}
+

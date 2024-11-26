@@ -1,28 +1,74 @@
 # Website
 
-This is my fourth iteration of my website. 
+This is my fourth iteration of my website.
+
+<div class="bullets-no-spacing">
 
 - All content is in markdown, site is vanilla html and css
-- All html apart from the template is completely generated (via pandoc)
-- Python script to render X posts as html
-- Hosted on github pages
-  - jekyll automatically handles all the routing for me
+- Hosted on github pages ([here](https://github.com/e-cal/e-cal.github.io))
+- <details><summary>All html apart from the template is completely generated (via pandoc)</summary>
 
-build script:
+  ```sh
+  #!/usr/bin/env bash
 
-```sh
-#!/usr/bin/env bash
+  # Find all markdown files in md/ and translate to html with a mirrored path
+  find md/ -name "*.md" | while read -r md_file; do
+      out=$(echo "$md_file" | sed -e 's/md\///' -e 's/\.md/\.html/')
+      output_dir=$(dirname "$out")
+      mkdir -p "$output_dir"
+      css=$(find styles/ -name "*.css" -exec echo --css=/{} \;)
+      python process.py "$md_file" | pandoc -f gfm --mathjax $css --template=template.html --standalone -t html -o "$out" 2>/dev/null
+      echo "Processed: $md_file -> $out"
+  done
+  ```
+  </details>
+- <details><summary>Python script to render X posts as html</summary>
 
-# Find all markdown files in md/ and translate to html with a mirrored path
-find md/ -name "*.md" | while read -r md_file; do
-    out=$(echo "$md_file" | sed -e 's/md\///' -e 's/\.md/\.html/')
-    output_dir=$(dirname "$out")
-    mkdir -p "$output_dir"
-    css=$(find styles/ -name "*.css" -exec echo --css=/{} \;)
-    python process.py "$md_file" | pandoc -f gfm --mathjax $css --template=template.html --standalone -t html -o "$out" 2>/dev/null
-    echo "Processed: $md_file -> $out"
-done
-```
+  ```python
+  def tweet_to_html(url, tweet):
+      html = f"""<blockquote>
+  <div class="tweet">
+  <div class="tweet-header">
+  <a href="{url}"><img class="tweet-profile-pic" src="{tweet.user.profile_image_url}" /><span class="tweet-header-text">{tweet.user.name}<span class="tweet-screen-name">@{tweet.user.screen_name}</span></span></a>
+  </div>
+  <div class="tweet-body">
+  {tweet.text}
+  """
+      if tweet.media:
+          for m in tweet.media:
+              html = html.replace(m["url"], "")
+              html += f'\n<img class="tweet-image" src="{m["media_url_https"]}" />\n'
+      html += "</div>\n</div>\n</blockquote>"
+      return html
+  ```
+  </details>
+- <details> <summary>Inject code syntax highlighting via shiki</summary>
+
+  ```html
+  <script type="module">
+    import { codeToHtml } from "https://esm.sh/shiki@1.0.0";
+
+    async function highlightCode() {
+      const preBlocks = document.querySelectorAll("pre");
+      for (const block of preBlocks) {
+        var code = block.textContent;
+        const lang = block.className.replace("sourceCode ", "");
+
+        block.innerHTML = await codeToHtml(code, {
+          lang: lang,
+          theme: "catppuccin-mocha",
+        });
+      }
+    }
+
+    highlightCode();
+  </script>
+  ```
+
+  </details>
+
+</div>
+
 
 ## Previous versions
 
@@ -37,7 +83,6 @@ I'm a big fan of htmx, but shoehorning it into a static personal website just
 doesn't make any sense. Also a looping mp4 background made the initial load time
 really slow, and the design was unique but I got tired of it after awhile.
 
-
 ### 2. Single page pure html/css/js with client-rendered interactive background
 
 <span style="display: flex; justify-content: space-between; width: 100%">
@@ -51,14 +96,12 @@ background could be slow or buggy on certain devices. Client side rendering a
 bunch of particles and interactions is just a bit gimmicky and unnecessary for a
 personal website. Still super cool and fun to build though.
 
-
 ### 1. Customized Gatsby tech portfolio template
 
 <span style="display: flex; justify-content: space-between; width: 100%">
 <img src="/assets/site1-home.png" style="width: 49%">
 <img src="/assets/site1-projects.png" style="width: 49%">
 </span>
-
 
 My first website, I hosted this one on a raspberry pi in my room!
 
