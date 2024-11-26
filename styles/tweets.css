@@ -1,5 +1,6 @@
 .tweet {
-  border: 1px solid var(--background-color-alt);
+  font-family: "Roboto", sans-serif;
+  border: 1px solid var(--background-color-light);
   border-radius: 12px;
   padding: 12px;
   margin-bottom: 12px;
@@ -9,7 +10,6 @@
     text-decoration: none;
     color: var(--text-color);
   }
-
 }
 
 .tweet-header {
@@ -22,6 +22,10 @@
 .tweet-header a {
   display: flex;
   align-items: center;
+}
+.tweet-header a::before,
+.tweet-header a::after {
+  content: none;
 }
 
 .tweet-header-text {
@@ -50,5 +54,6 @@
 }
 
 .tweet-image {
+  margin-top: 0.5rem;
   max-width: 100%;
 }

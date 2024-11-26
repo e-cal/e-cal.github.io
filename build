@@ -1,25 +1,44 @@
 #!/usr/bin/env bash
 
-find md/ -name "*.md" | while read -r md_file; do
-    out=$(echo "$md_file" | sed -e 's/md\///' -e 's/\.md/\.html/')
 
+build_page() {
+    local md_file=$1
+    title=$(echo "$md_file" | sed -e 's/^\.\///' -e 's/md\///' -e 's/\.md//')
+    out=$(echo $title".html")
+    if [[ "$title" == "index" ]]; then
+        title="ecal"
+    else
+        title="ecal/$title"
+    fi
     # Create the output directory if it doesn't exist
     output_dir=$(dirname "$out")
     mkdir -p "$output_dir"
-
     # Find all CSS files and create the CSS_FILES variable
     CSS_FILES=$(find styles/ -name "*.css" -exec echo --css=/{} \;)
-
     python process.py "$md_file" | \
         pandoc \
             $CSS_FILES \
             -f gfm \
-            --metadata title="ecal.dev" \
             --mathjax \
             -t html \
             --template=template.html \
+            --metadata title="$title" \
             --standalone \
-            -o "$out" 
-
+            -o "$out"
     echo "Processed: $md_file -> $out"
-done
+}
+
+if [[ $# > 0 ]]; then
+	file=$(find -L . -path './.git' -prune -o -type f -name "*.md" -print 2>/dev/null | fzf --filter="$*" | head -n 1)
+    if [[ -f "$file" ]]; then
+        build_page "$file"
+    else
+        echo "$file not found"
+        exit 1
+    fi
+else
+    # Process all markdown files
+    find md/ -name "*.md" | while read -r file; do
+        build_page "$file"
+    done
+fi

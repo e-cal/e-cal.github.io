@@ -1,3 +1,7 @@
+---
+title: projects/website
+---
+
 # Website
 
 This is my fourth iteration of my website.
@@ -9,17 +13,18 @@ This is my fourth iteration of my website.
 - <details><summary>All html apart from the template is completely generated (via pandoc)</summary>
 
   ```sh
-  #!/usr/bin/env bash
-
-  # Find all markdown files in md/ and translate to html with a mirrored path
-  find md/ -name "*.md" | while read -r md_file; do
-      out=$(echo "$md_file" | sed -e 's/md\///' -e 's/\.md/\.html/')
-      output_dir=$(dirname "$out")
-      mkdir -p "$output_dir"
-      css=$(find styles/ -name "*.css" -exec echo --css=/{} \;)
-      python process.py "$md_file" | pandoc -f gfm --mathjax $css --template=template.html --standalone -t html -o "$out" 2>/dev/null
-      echo "Processed: $md_file -> $out"
-  done
+  # from build script
+  CSS_FILES=$(find styles/ -name "*.css" -exec echo --css=/{} \;)
+  python process.py "$md_file" | \
+      pandoc \
+          $CSS_FILES \
+          -f gfm \
+          --mathjax \
+          -t html \
+          --template=template.html \
+          --metadata title="$title" \
+          --standalone \
+          -o "$out"
   ```
   </details>
 - <details><summary>Python script to render X posts as html</summary>

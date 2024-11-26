@@ -3,11 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ecal.dev</title>
+    <title>ecal/projects/website</title>
+    <link rel="stylesheet" href="/styles/font.css" />
     <link rel="stylesheet" href="/styles/tweets.css" />
     <link rel="stylesheet" href="/styles/index.css" />
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script> 
-
+  <script src="https://unpkg.com/feather-icons"></script>
   <script type="module">
     import { codeToHtml } from "https://esm.sh/shiki@1.0.0";
 
@@ -29,10 +30,13 @@
   </head>
   <body>
     <header>
-      <!-- Your header content here -->
       <nav>
-        <a href="/">Home</a>
-        <a href="/about">About</a>
+        <a href="/">ecal</a>
+        <div>
+          <a href="/resume"><i data-feather="file-text"></i></a>
+          <a href="https://github.com/e-cal" target="_blank"><i data-feather="github"></i></a>
+          <a href="https://x.com/0xeca1" target="_blank"><i data-feather="twitter"></i></a>
+        </div>
       </nav>
     </header>
 
@@ -48,17 +52,18 @@
     <li><details><summary>All html apart from the template is completely generated (via pandoc)</summary>
 
     <div class="sourceCode" id="cb1"><pre
-    class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Find all markdown files in md/ and translate to html with a mirrored path</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> md/ <span class="at">-name</span> <span class="st">&quot;*.md&quot;</span> <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="at">-r</span> <span class="va">md_file</span><span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">out</span><span class="op">=</span><span class="va">$(</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$md_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="at">-e</span> <span class="st">&#39;s/md\///&#39;</span> <span class="at">-e</span> <span class="st">&#39;s/\.md/\.html/&#39;</span><span class="va">)</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">output_dir</span><span class="op">=</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">&quot;</span><span class="va">)</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">css</span><span class="op">=</span><span class="va">$(</span><span class="fu">find</span> styles/ <span class="at">-name</span> <span class="st">&quot;*.css&quot;</span> <span class="at">-exec</span> echo <span class="at">--css</span><span class="op">=</span>/{} <span class="dt">\;</span><span class="va">)</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="ex">python</span> process.py <span class="st">&quot;</span><span class="va">$md_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="ex">pandoc</span> <span class="at">-f</span> gfm <span class="at">--mathjax</span> <span class="va">$css</span> <span class="at">--template</span><span class="op">=</span>template.html <span class="at">--standalone</span> <span class="at">-t</span> html <span class="at">-o</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">&quot;</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;Processed: </span><span class="va">$md_file</span><span class="st"> -&gt; </span><span class="va">$out</span><span class="st">&quot;</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+    class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from build script</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">CSS_FILES</span><span class="op">=</span><span class="va">$(</span><span class="fu">find</span> styles/ <span class="at">-name</span> <span class="st">&quot;*.css&quot;</span> <span class="at">-exec</span> echo <span class="at">--css</span><span class="op">=</span>/{} <span class="dt">\;</span><span class="va">)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> process.py <span class="st">&quot;</span><span class="va">$md_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">pandoc</span> <span class="dt">\</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">$CSS_FILES</span> <span class="dt">\</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">-f</span> gfm <span class="dt">\</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">--mathjax</span> <span class="dt">\</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">-t</span> html <span class="dt">\</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">--template</span><span class="op">=</span>template.html <span class="dt">\</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">--metadata</span> title=<span class="st">&quot;</span><span class="va">$title</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">--standalone</span> <span class="dt">\</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">-o</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">&quot;</span></span></code></pre></div>
     </details>
     </li>
     <li><details><summary>Python script to render X posts as html</summary>
@@ -147,5 +152,7 @@
     room!</p>
     <p>The design was super uninspired. Using a template is fine, but
     after a while I really wanted to build something myself.</p>
+
+  <script> feather.replace(); </script>
   </body>
 </html>

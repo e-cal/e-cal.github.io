@@ -6,7 +6,7 @@ def tweet_to_html(url, tweet):
     html = f"""<blockquote>
 <div class="tweet">
 <div class="tweet-header">
-<a href="{url}"><img class="tweet-profile-pic" src="{tweet.user.profile_image_url}" /><span class="tweet-header-text">{tweet.user.name}<span class="tweet-screen-name">@{tweet.user.screen_name}</span></span></a>
+<a href="{url}" class="unstyle"><img class="tweet-profile-pic" src="{tweet.user.profile_image_url}" /><span class="tweet-header-text">{tweet.user.name}<span class="tweet-screen-name">@{tweet.user.screen_name}</span></span></a>
 </div>
 <div class="tweet-body">
 {tweet.text}
