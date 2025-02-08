@@ -7,12 +7,15 @@
   --font-weight-medium: 600;
   --font-weight-bold: 800;
 
-  --text-color: #cdd6f4;
+  /* --text-color: #cdd6f4; */
+  --text-color: #DEE4F7;
   --text-color-alt: #7f849c;
   --text-color-alt-light: #a6adc8;
-  --background-color: #1e1e2e;
+  /* --background-color: #1e1e2e; */
+  --background-color: #2b2a33;
   --background-color-light: #45475a;
-  --background-color-dark: #1e1e2e;
+  /* --background-color-dark: #1e1e2e; */
+  --background-color-dark: #2b2a33;
   --hl: #45475a;
 
   font-family: var(--font-family);
