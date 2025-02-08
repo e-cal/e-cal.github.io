@@ -14,7 +14,7 @@ build_page() {
     output_dir=$(dirname "$out")
     mkdir -p "$output_dir"
     # Find all CSS files and create the CSS_FILES variable
-    CSS_FILES=$(find styles/ -name "*.css" -exec echo --css=/{} \;)
+    CSS_FILES=$(find styles/ -name "*.css" -exec echo --css=`pwd`/{} \;)
     python process.py "$md_file" | \
         pandoc \
             $CSS_FILES \
