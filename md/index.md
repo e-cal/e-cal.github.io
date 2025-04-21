@@ -1,19 +1,4 @@
-AI/ML applications & LLM research.
-
-<br>
-
-## Currently
-
-Building AI-powered tools for [SMB + non-profit + enterprise] clients.
-
-_... also ..._
-
-Using information theory to improve LLM samplers.
-
-Working on a [fork](https://github.com/e-cal/entropix) of [entropix](https://github.com/xjdr-alt/entropix). 
-Focused on intelligently selecting sampling methods, selecting good branch
-points & evaluating branch candidates, and enabling better human-AI
-collaboration. 
+### AI/ML applications & LLM research.
 
 <br>
 

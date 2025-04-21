@@ -8,11 +8,11 @@ def build_markdown(filepaths: list[str]):
     """Runs the `./build` command on the given markdown file."""
     for fp in filepaths:
         print(f"Building {fp}...")
+
         try:
             # Extract the filename from filepath:
             filename = os.path.basename(fp)
             command = f"./build {filename}"
-            print(f"Running: {command}")
             # Use shell=True in subprocess.run if your command has shell-specific features (e.g., wildcards, pipes).  Otherwise shell=False and provide args as a list.
             result = subprocess.run(command, shell=True, capture_output=True, text=True)
             print(result.stdout)

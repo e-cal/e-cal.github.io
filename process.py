@@ -13,8 +13,8 @@ def tweet_to_html(url, tweet):
 """
     if tweet.media:
         for m in tweet.media:
-            html = html.replace(m["url"], "")
-            html += f'\n<img class="tweet-image" src="{m["media_url_https"]}" />\n'
+            html = html.replace(m.url, "")
+            html += f'\n<img class="tweet-image" src="{m.media_url}" />\n'
     html += "</div>\n</div>\n</blockquote>"
     return html
 

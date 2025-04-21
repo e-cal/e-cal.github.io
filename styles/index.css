@@ -55,6 +55,11 @@ body {
   overflow-x: hidden;
 }
 
+h2::before {
+  content: "## ";
+  color: var(--text-color-alt);
+}
+
 header {
   font-size: 2.5rem;
   margin-bottom: calc(var(--line-height) * 2);
